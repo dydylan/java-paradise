@@ -1,10 +1,19 @@
-package com.formation.app;
+package com.formation.app.model;
 
 public class Trip {
     private Long Id;
-    private Place departure;
-    private Place destination;
+    private Long departure;
+    private Long destination;
     private Float price;
+
+
+    public Trip(Long id, Long departure, Long destination, Float price) {
+        this.Id = id;
+        this.departure = departure;
+        this.destination = destination;
+        this.price = price;
+    }
+
 
     public long getId() {
         return Id;
@@ -14,19 +23,19 @@ public class Trip {
         Id = id;
     }
 
-    public Place getDeparture() {
+    public Long getDeparture() {
         return departure;
     }
 
-    public void setDeparture(Place departure) {
+    public void setDeparture(Long departure) {
         this.departure = departure;
     }
 
-    public Place getDestination() {
+    public Long getDestination() {
         return destination;
     }
 
-    public void setDestination(Place destination) {
+    public void setDestination(Long destination) {
         this.destination = destination;
     }
 

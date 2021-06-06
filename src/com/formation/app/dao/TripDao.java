@@ -1,6 +1,6 @@
 package com.formation.app.dao;
 
-import com.formation.app.Trip;
+import com.formation.app.model.Trip;
 
 import java.util.List;
 

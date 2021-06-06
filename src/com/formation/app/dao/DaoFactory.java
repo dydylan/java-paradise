@@ -1,19 +1,17 @@
 package com.formation.app.dao;
 
-import com.formation.app.Place;
+import com.formation.app.dao.jdbc.JdbcPlaceDao;
+import com.formation.app.dao.jdbc.JdbcTripDao;
 
-import java.util.List;
+public class DaoFactory {
+    private DaoFactory() {
+    }
 
-public interface PlaceDao extends CrudDao<Long, Place>{
+    public static JdbcPlaceDao createPlaceDao(){
+        return new JdbcPlaceDao();
+    }
 
-    Place create(Place place);
-
-    Place findById(Long id);
-
-    boolean update(Place place);
-
-    boolean remove(Long id);
-
-    List<Place> findAll();
-
+    public static JdbcTripDao createTripDao(){
+        return new JdbcTripDao();
+    }
 }

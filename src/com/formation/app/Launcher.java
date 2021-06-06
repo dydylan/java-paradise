@@ -3,6 +3,8 @@ package com.formation.app;
 //import com.formation.app.dao.DaoFactory;
 import com.formation.app.dao.jdbc.JdbcPlaceDao;
 import com.formation.app.dao.jdbc.JdbcTripDao;
+import com.formation.app.model.Place;
+import com.formation.app.model.Trip;
 import com.formation.app.util.ConnectionManager;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public class Launcher {
         JdbcTripDao tripQuery = new JdbcTripDao();
 
         List<Place> listPlaces = placeQuery.findAll();
-        List<Place> listTrips = placeQuery.findAll();
+        List<Trip> listTrips = tripQuery.findAll();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -26,6 +28,7 @@ public class Launcher {
         String input;
 
         do {
+            System.out.println("---------------------------");
             System.out.println("What do you want to do ?");
             System.out.println("1 - Add a place");
             System.out.println("2 - Find a place");
@@ -52,12 +55,11 @@ public class Launcher {
 
                 case "2":
                     try {
-                        System.out.print("Id : ");
+                        System.out.println("What is the id of your place?");
                         input = scanner.nextLine();
                         System.out.println(listPlaces.get(Integer.parseInt(input)).getName());
                     } catch (Exception e) {
-                        System.err.println("Place not found");
-                        System.out.println();
+                        e.printStackTrace();
                     }
                     break;
 
@@ -95,12 +97,15 @@ public class Launcher {
 
                 case "6":
                     try {
-                        System.out.print("Id : ");
+                        System.out.println("What is the id of your trip?");
                         input = scanner.nextLine();
-                        System.out.println(listTrips.get(Integer.parseInt(input)).getName());
-                    }
-                    catch (Exception e){
-                        System.err.println("Trip not found");
+                        int id_departure = Math.toIntExact(listTrips.get(Integer.parseInt(input)).getDeparture()) - 1;
+                        int id_destination = Math.toIntExact(listTrips.get(Integer.parseInt(input)).getDestination()) - 1;
+                        System.out.println(listPlaces.get(id_departure).getName());
+                        System.out.println(listPlaces.get(id_destination).getName());
+                        System.out.println(listTrips.get(Integer.parseInt(input)).getPrice());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
 
@@ -129,7 +134,6 @@ public class Launcher {
 
         } while (passageInTheLoop);
         System.out.println("Bye bye");
-
 
         ConnectionManager.closeConnection();
     }    //psvm

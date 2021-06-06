@@ -1,7 +1,7 @@
 package com.formation.app.dao.jdbc;
 
 import com.formation.app.dao.PlaceDao;
-import com.formation.app.Place;
+import com.formation.app.model.Place;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,22 +10,87 @@ import java.util.List;
 public class JdbcPlaceDao extends JdbcDao implements PlaceDao{
     @Override
     public Place create(Place place) {
-        return null;
+        Place createdPlace = null;
+        String query = "INSERT INTO places (name) VALUES(?)";
+        try (PreparedStatement pst = this.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pst.setString(1, place.getName());
+
+            ResultSet resultSet = pst.getGeneratedKeys();
+            resultSet.next();
+            Long id = resultSet.getLong(1);
+
+            this.connection.commit();
+
+            createdPlace = findById(id);
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            try {
+                this.connection.rollback();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return createdPlace;
     }
 
     @Override
     public Place findById(Long id) {
-        return null;
+        String query = "SELECT * FROM place WHERE id = ?";
+        Place foundPlace = null;
+        try (PreparedStatement pst = this.connection.prepareStatement(query)) {
+            pst.setLong(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                foundPlace = mapToPlace(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foundPlace;
     }
 
     @Override
     public boolean update(Place place) {
-        return false;
+        int updateRows = 0;
+        String query = "UPDATE place SET name= ? WHERE id=?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, place.getName());
+            pst.setLong(2, place.getId());
+
+            updateRows = pst.executeUpdate();
+            connection.commit();
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return updateRows > 0;
     }
 
     @Override
     public boolean remove(Long id) {
-        return false;
+        boolean isDeleted = false;
+        String query = "DELETE FROM trip WHERE id = ?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setLong(1, id);
+            isDeleted = pst.execute();
+            connection.commit();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return isDeleted;
     }
 
     @Override
@@ -46,64 +111,8 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao{
 
     private Place mapToPlace(ResultSet rs) throws SQLException {
         Long id = rs.getLong("id");
-        String name = rs.getString("nom");
+        String name = rs.getString("name");
         return new Place(id, name);
     }
 
-//    @Override
-//    public Boolean create(Place p) {
-//        List<...> ... = new ArrayList<>();
-//
-//        String query = "...";
-//        try () {
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return "...";
-//    }
-//
-//    @Override
-//    public List<Place> findAll() {
-//        List<...> ... = new ArrayList<>();
-//
-//        String query = "...";
-//        try () {
-//
-//        }
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//        }
-//        return "...";
-//    }
-//
-//
-//
-//
-//    @Override
-//    public Boolean update(Place p) {
-//        List<...> ... = new ArrayList<>();
-//
-//        String query = "...";
-//        try () {
-//
-//        } catch (SQLException e) {
-//        e.printStackTrace();
-//        }
-//        return "...";
-//    }
-//
-//    @Override
-//    public Place findById(Long ID) {
-//        List<...> ... = new ArrayList<>();
-//
-//        String query = "...";
-//        try () {
-//
-//        } catch (SQLException e) {
-//        e.printStackTrace();
-//        }
-//        return "...";
-//
-//    }
 }

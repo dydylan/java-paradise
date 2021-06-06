@@ -1,4 +1,4 @@
-package com.formation.app;
+package com.formation.app.model;
 
 public class Place {
     private Long Id;
@@ -8,10 +8,10 @@ public class Place {
         this.Id = id;
         this.name = name;
     }
-
-    public Place(String name) {
-        this.name = name;
-    }
+//
+//    public Place(Long id, String departure, String name, Float price) {
+//        this.name = name;
+//    }
 
 
     public Long getId() {

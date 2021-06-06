@@ -1,17 +1,19 @@
 package com.formation.app.dao;
 
+import com.formation.app.model.Place;
+
 import java.util.List;
 
-public interface PlaceDao<T> extends CrudDao<Long, T>{
+public interface PlaceDao extends CrudDao<Long, Place>{
 
-    T create(T place);
+    Place create(Place place);
 
-    T findById(Long id);
+    Place findById(Long id);
 
-    boolean update(T place);
+    boolean update(Place place);
 
     boolean remove(Long id);
 
-    List<T> findAll();
+    List<Place> findAll();
 
 }
