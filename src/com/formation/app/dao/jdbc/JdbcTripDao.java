@@ -15,7 +15,7 @@ public class JdbcTripDao extends JdbcDao implements TripDao<Place> {
     @Override
     public Trip create(Trip trip) {
         Trip createdTrip = null;
-        String query = "INSERT INTO fruits (departure, destination, price) VALUES(?,?,?)";
+        String query = "INSERT INTO trip (departure, destination, price) VALUES(?,?,?)";
         try (PreparedStatement pst = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pst.setLong(1, trip.getDeparture());
             pst.setLong(2, trip.getDestination());
@@ -61,7 +61,7 @@ public class JdbcTripDao extends JdbcDao implements TripDao<Place> {
     @Override
     public boolean update(Trip trip) {
         int updateRows = 0;
-        String query = "UPDATE fruits SET name= ?, expirationDate= ? WHERE id=?";
+        String query = "UPDATE trip SET name= ?, expirationDate= ? WHERE id=?";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setLong(1, trip.getDeparture());
             pst.setLong(2, trip.getDestination());

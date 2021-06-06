@@ -14,6 +14,12 @@ public class Trip {
         this.price = price;
     }
 
+    public Trip(Long departure, Long destination, Float price) {
+        this.departure = departure;
+        this.destination = destination;
+        this.price = price;
+    }
+
 
     public long getId() {
         return Id;

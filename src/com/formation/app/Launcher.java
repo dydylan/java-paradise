@@ -45,28 +45,36 @@ public class Launcher {
             switch (input) {
                 case "1":
                     try {
-                        System.out.print("Name : ");
+                        System.out.println("We will create a new place");
+                        System.out.println("Please enter name of this place : ");
                         input = scanner.nextLine();
+                        Place place = new Place(input);
+                        placeQuery.create(place);
+                        System.out.println("The place " + place.getName() + " has been created");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                     break;
 
                 case "2":
                     try {
-                        System.out.println("What is the id of your place?");
+                        System.out.println("What is the id of the place you are looking for?");
                         input = scanner.nextLine();
-                        System.out.println(listPlaces.get(Integer.parseInt(input)).getName());
+                        System.out.println("Place : " + listPlaces.get(Integer.parseInt(input)).getName());
                     } catch (Exception e) {
                         e.printStackTrace();
+                        System.out.println("Incorrect if of place");
                     }
                     break;
 
                 case "3":
                     try {
-                        System.out.print("Id : ");
-                        input = scanner.nextLine();
+                        System.out.println("Please enter the id of the place you want to update : ");
+                        String inputId = scanner.nextLine();
+                        System.out.println("Please enter the new name of this place : ");
+                        String inputName = scanner.nextLine();
+                        listPlaces.get(Integer.parseInt(inputId)).setName(inputName);
+                        System.out.println("The place " + listPlaces.get(Integer.parseInt(inputId)).getName() + " has been updated");
                     }
                     catch (Exception e) {
                         e.printStackTrace();
@@ -75,8 +83,23 @@ public class Launcher {
 
                 case "4":
                     try {
-                        System.out.print("Id : ");
+                        System.out.println("Please enter the id of the place you want to remove : ");
                         input = scanner.nextLine();
+
+                        Place place = placeQuery.findById(Long.parseLong(input));
+                        System.out.println("Place : " + place.getName());
+
+                        System.out.println("Are you sure you want to remove it ? (please reply with 'yes' or 'no')");
+                        input = scanner.nextLine();
+
+                        if (input.equals("yes")) {
+                            placeQuery.remove(place.getId());
+                            System.out.println("The place has been deleted");
+                        }
+                        else{
+                            System.out.println("The deletion has been canceled");
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -84,28 +107,34 @@ public class Launcher {
 
                 case "5":
                     try {
-
-                        System.out.print("Departure : please enter the id of the place : ");
-                        input = scanner.nextLine();
-
+                        System.out.println("We will create a new trip");
+                        System.out.println("Departure : please enter the id of the place : ");
+                        Long inputDeparture = scanner.nextLong();
+                        System.out.println("Destination : please enter the id of the place : ");
+                        Long inputDestination = scanner.nextLong();
+                        System.out.println("Please enter the price of this trip : ");
+                        Float inputPrice = scanner.nextFloat();
+                        Trip trip = new Trip(inputDeparture, inputDestination, inputPrice);
+                        tripQuery.create(trip);
+                        System.out.println("The trip from the place with the id " + trip.getDeparture() + " to the place with the id" + trip.getDestination() + " has been created");
                     }
                     catch (Exception e){
                         e.printStackTrace();
                     }
-
                     break;
 
                 case "6":
                     try {
-                        System.out.println("What is the id of your trip?");
+                        System.out.println("What is the id of the trip you are looking for?");
                         input = scanner.nextLine();
                         int id_departure = Math.toIntExact(listTrips.get(Integer.parseInt(input)).getDeparture()) - 1;
                         int id_destination = Math.toIntExact(listTrips.get(Integer.parseInt(input)).getDestination()) - 1;
-                        System.out.println(listPlaces.get(id_departure).getName());
-                        System.out.println(listPlaces.get(id_destination).getName());
-                        System.out.println(listTrips.get(Integer.parseInt(input)).getPrice());
+                        System.out.println("Departure : " + listPlaces.get(id_departure).getName());
+                        System.out.println("Destination : " + listPlaces.get(id_destination).getName());
+                        System.out.println("Price : " + listTrips.get(Integer.parseInt(input)).getPrice());
                     } catch (Exception e) {
                         e.printStackTrace();
+                        System.out.println("Incorrect id of trip");
                     }
                     break;
 

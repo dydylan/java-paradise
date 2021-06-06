@@ -11,9 +11,10 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao{
     @Override
     public Place create(Place place) {
         Place createdPlace = null;
-        String query = "INSERT INTO places (name) VALUES(?)";
+        String query = "INSERT INTO place (name) VALUES(?)";
         try (PreparedStatement pst = this.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             pst.setString(1, place.getName());
+            pst.execute();
 
             ResultSet resultSet = pst.getGeneratedKeys();
             resultSet.next();
